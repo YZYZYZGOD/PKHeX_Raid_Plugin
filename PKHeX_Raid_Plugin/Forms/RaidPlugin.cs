@@ -8,8 +8,8 @@ namespace PKHeX_Raid_Plugin
 {
     public class RaidPlugin : IPlugin
     {
-        public string Name => "Display Raids";
-        public static string Name_Finder => "Raid Seed Finder";
+        public string Name => "坑位信息";
+        public static string Name_Finder => "Seed计算器";
 
         public int Priority => 1;
 
@@ -26,7 +26,7 @@ namespace PKHeX_Raid_Plugin
 
         public void Initialize(params object[] args)
         {
-            Debug.WriteLine("[Display Raids Plugin] Loading");
+            Debug.WriteLine("[Display Raids Plugin] 正在加载");
             SaveFileEditor = (ISaveFileProvider)Array.Find(args, z => z is ISaveFileProvider);
             PKMEditor = (IPKMView)Array.Find(args, z => z is IPKMView);
             var menu = (ToolStrip)Array.Find(args, z => z is ToolStrip);
