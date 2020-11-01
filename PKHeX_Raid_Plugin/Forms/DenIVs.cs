@@ -22,7 +22,7 @@ namespace PKHeX_Raid_Plugin
         private static readonly ComboboxItem any = new ComboboxItem("Any", -1);
 
         private static readonly string[] genders = { "Male", "Female", "Genderless" };
-        private static readonly string[] shinytype = { "No", "Star", "Square" };
+        private static readonly string[] shinytype = { "否", "星闪", "方闪" };
         private static readonly Dictionary<string, int> natureIdx = new Dictionary<string, int>();
 
         private CancellationTokenSource cts;
@@ -191,7 +191,7 @@ namespace PKHeX_Raid_Plugin
                 return false;
 
             string shiny = (string)row.Cells[10].Value;
-            return (shinyBox.SelectedIndex == 1 && shiny != "No") || shinyBox.Text == shiny || shinyBox.SelectedIndex == 0;
+            return (shinyBox.SelectedIndex == 1 && shiny != "无") || shinyBox.Text == shiny || shinyBox.SelectedIndex == 0;
         }
 
         private void SpeciesList_SelectedIndexChanged(object sender, EventArgs e)
@@ -261,13 +261,13 @@ namespace PKHeX_Raid_Plugin
 
         private async void SearchButton_Click(object sender, EventArgs e)
         {
-            if (searchButton.Text == "Stop")
+            if (searchButton.Text == "停止")
             {
                 cts.Cancel();
-                searchButton.Text = "Search";
+                searchButton.Text = "搜索";
                 return;
             }
-            var result = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "This might take a long time. Are you sure you want to start the search?");
+            var result = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "这可能会需要很长时间，你确定开始搜索吗？");
             if (result != DialogResult.Yes)
                 return;
 
@@ -279,19 +279,19 @@ namespace PKHeX_Raid_Plugin
             startFrame.Text = start_frame.ToString();
             // uint end_frame = uint.Parse(endFrame.Text);
             raidContent.Rows.Clear();
-            searchButton.Text = "Stop";
+            searchButton.Text = "停止";
             cts = new CancellationTokenSource();
             try
             {
                 var row = await SearchTask(start_seed, start_frame, cts.Token);
                 //((ISupportInitialize)raidContent).BeginInit();
                 raidContent.Rows.Add(row);
-                searchButton.Text = "Search";
+                searchButton.Text = "搜索";
                 //((ISupportInitialize)raidContent).EndInit();
             }
             catch (OperationCanceledException)
             {
-                WinFormsUtil.Alert("Stop Search!");
+                WinFormsUtil.Alert("停止搜索");
                 return;
             }
             /*
